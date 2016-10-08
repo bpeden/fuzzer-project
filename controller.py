@@ -3,6 +3,7 @@
 ## Controller definition
 ## Starts and Preps the victim process for fuzzing.  Basic monitoring - Reports crashes
 
+import os
 
 from kitty.controllers.base import BaseController
 

@@ -1,7 +1,5 @@
 #!/usr/bin/python
 
-import os
-
 from kitty.fuzzers.server import ServerFuzzer
 from kitty.controllers import EmptyController
 from kitty.interfaces.web import WebInterface
@@ -24,7 +22,7 @@ def main():
 
 	interface = WebInterface(host='localhost', port=8081)
 
-## The fuzzer is the top-level object.  ties the model to the target and the monitor
+## The fuzzer is the top-level object.  Ties the model to the target and the monitor
 ## and controller.  Docs say it doesn't need to be subclassed.
 	fuzzer = ServerFuzzer(name='myServerFuzzer')
 
