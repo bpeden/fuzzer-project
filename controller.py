@@ -53,6 +53,8 @@ class LocalProcessController(BaseController):
 		self.logger.debug('return code: %d', self._process.returncode)
 		self.report.add('return_code', self._process.returncode)
 		self.report.add('failed', self._process.returncode != 0) # obviously...
+		if (self._process.returncode != 0):
+			sys.exit(0)
 		self._process = None
 		super(ClientProcessController, self).post_test()
 	

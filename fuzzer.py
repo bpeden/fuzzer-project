@@ -5,20 +5,24 @@ from kitty.controllers import EmptyController
 from kitty.interfaces.web import WebInterface
 from kitty.model import GraphModel
 
-from templates import http_get
+from templates import *
 from target import myTCPTarget
 
 
-def main():	
-	template = http_get
-	
+def main():		
 	controller = EmptyController(name='Empty Controller (testing)')
 
 	target = myTCPTarget(name='myTarget', host='localhost', port=80)
 	target.set_controller(controller)
 
 	model = GraphModel(name='mysimpleHTTPModel')
-	model.connect(template)
+	model.connect(http_get)
+	model.connect(http_get, http_post)
+	model.connect(http_post, http_apache_crash)
+	model.connect(http_apache_crash, http_nginx_win_crash_1)
+	model.connect(http_nginx_win_crash_1, http_nginx_win_crash_2)
+	model.connect(http_nginx_win_crash_2, http_nginx_win_crash_3)
+	model.connect(http_nginx_win_crash_3, http_lighttpd_crash)
 
 	interface = WebInterface(host='localhost', port=8081)
 
