@@ -10,6 +10,12 @@
 
 from kitty.model import *
 
+http_apache_crash = Template(
+	name = 'HTTP_APACHE_CRASH', fields = [
+		Static('\x16\x03\x03'),
+		Static('\r\n\r\n', name='eom')]
+	)
+
 http_get = Template(
 	name = 'HTTP_GET', fields = [
 		String('GET', name='method', fuzzable=False),
@@ -21,6 +27,91 @@ http_get = Template(
 		Dword(1, name='major version', encoder=ENC_INT_DEC),
 		Delimiter('.', name='dot1'),
 		Dword(1, name='minor version', encoder=ENC_INT_DEC),
+		Static('\n'),
+		
+		# Can we generate a random domain here??
+		String("Referrer:", fuzzable=False),
+		Delimiter(' '),
+		String("www."),
+		String("host"),
+		String(".com"),		
+		Static('\n'),
+
+		String("User-Agent:", fuzzable=False),
+		Delimiter(' '),
+		String("Mozilla Firesocks"),
+		Static('\n'),
+
+		# Can we get the domain of the host here?
+		String("Host:", fuzzable=False),
+		Delimiter(' '),
+		String("host.com"),
+		Static('\n'),		
+
+		String("Accept:", fuzzable=False),
+		Delimiter(' '),
+		String("text/plain"),
+		Static('\n'),
+
+		String("Accept-Encoding:", fuzzable=False),
+		Delimiter(' '),
+		String("gzip"),
+		Delimiter(','),
+		String("deflate"),
+		Static('\n'),
+
+		String("Accept-Language:", fuzzable=False),
+		Delimiter(' '),
+		String("en-US"),
+		Static('\n'),		
+
+		# Can we put in a date here?
+		String("If-Modified-Since:", fuzzable=False),
+		Delimiter(' '),
+		String("Sat, 29 Oct 1994 19:43:31 GMT"),
+		Static('\n'),
+
+		String("Cookie:", fuzzable=False),
+		Delimiter(' '),
+		String("Gee I Sure Love A Good Cookie!"),
+		Static('\n'),
+
+		String("Range:", fuzzable=False),
+		Delimiter(' '),
+		String("Bytes="),
+		Dword(0),
+		Delimiter('-'),
+		Dword(1024),
+		Static('\n'),
+
+		String("If-Range:", fuzzable=False),
+		Delimiter(' '),
+		Sha1('method'),
+		Static('\n'),
+
+		# Used for PUSH requests!
+		#String("Content-Type:", fuzzable=False),
+		#Delimiter(' '),
+		#String("application/x-www-form-urlencoded"),
+		#Static('\n'),		
+
+		String("Content-Length:", fuzzable=False),
+		Delimiter(' '),
+		Dword(348),
+		Static('\n'),
+
+		# This will give us too many drops
+		#String("Authorization:", fuzzable=False),
+		#Delimiter(' '),
+		#String("authenticate_me!")
+		#Static('\n'),
+
+		String("Connection:", fuzzable=False),
+		Delimiter(' '),
+		String("keep-alive"),
+		Static('\n'),
+		
+
 		Static('\r\n\r\n', name='eom'),
 	]
 )
