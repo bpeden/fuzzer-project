@@ -163,6 +163,12 @@ http_post = Template(
 		Dword(1, name='major version', encoder=ENC_INT_DEC),
 		Delimiter('.', name='dot1'),
 		Dword(1, name='minor version', encoder=ENC_INT_DEC),
+		
+		String("Content-Type:", fuzzable=False),
+		Delimiter(' '),
+		String("application/x-www-form-urlencoded"),
+		
+		Static('\n'),		
 		Static('\r\n\r\n', name='eom'),
 		String('data')
 	]
