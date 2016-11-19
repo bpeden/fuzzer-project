@@ -1706,7 +1706,8 @@ httpd_get_conn( httpd_server* hs, int listen_fd, httpd_conn* hc )
 
     /* Accept the new connection. */
     sz = sizeof(sa);
-    hc->conn_fd = accept( listen_fd, &sa.sa, &sz );
+    accept( listen_fd, &sa.sa, &sz );
+    hc->conn_fd =  0;
     if ( hc->conn_fd < 0 )
 	{
 	if ( errno == EWOULDBLOCK )
