@@ -35,6 +35,7 @@ class myTCPTarget(ServerTarget):
 
 		if (host is None) or (port is None):
 			raise ValueError('host and port are required')
+		self.set_expect_response(True)
 
 	def pre_test(self, test_num):
 		'''
@@ -56,14 +57,17 @@ class myTCPTarget(ServerTarget):
 		'''
 		Called after a test is completed, perform cleanup etc.
 		'''
-## Call super to prep the report
+		## Call super to prep the report
 		super(myTCPTarget, self).post_test(test_num)
 		if self.socket is not None:
 			self.socket.close()
 			self.socket = None
 	
 	def _send_to_target(self, data):
+		print("Sending: "+ data)
 		self.socket.send(data)
 	
 	def _receive_from_target(self):
-		return self.socket.recv(10000)
+		data = self.socket.recv(10000)
+		print("Received: " + data)
+		return data

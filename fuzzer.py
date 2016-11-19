@@ -8,8 +8,8 @@ from kitty.model import GraphModel
 from templates import http_get
 from target import myTCPTarget
 
-def main():
-	
+
+def main():	
 	template = http_get
 	
 	controller = EmptyController(name='Empty Controller (testing)')
